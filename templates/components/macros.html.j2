@@ -1,0 +1,242 @@
+{# ==========================================================================
+   Page templates. Each macro renders exactly one A4 .page.
+   ========================================================================== #}
+
+{% macro folio(n, section='') -%}
+<div class="folio">{% if n % 2 == 0 %}<b>{{ '%02d' % n }}</b>{{ mag.short_title }}{% else %}{{ section or mag.short_title }}<b>{{ '%02d' % n }}</b>{% endif %}</div>
+{%- endmacro %}
+
+{% macro running_head(n, section) -%}
+<div class="running-head"><span class="sec">{{ section }}</span><span>{{ mag.issue_label }}</span></div>
+{%- endmacro %}
+
+{% macro source_line(a) -%}
+<div class="source-line"><span><b>{{ a.source }}</b></span><span>{{ a.date_display }}</span><a href="{{ a.url }}">Read original</a></div>
+{%- endmacro %}
+
+{% macro photo(a, cls='') -%}
+<figure class="{{ cls }}"><img src="{{ a.image }}" alt="{{ a.title }}"><span class="credit-overlay">{{ a.image_credit }}</span></figure>
+{%- endmacro %}
+
+{% macro paras(a) -%}{% for p in a.body %}<p>{{ p }}</p>{% endfor %}{%- endmacro %}
+
+{# ---------------- COVER ---------------- #}
+{% macro cover(p) -%}
+<section class="page cover" id="page-{{ p.n }}">
+  <img class="cover-bg" src="{{ mag.cover.image }}" alt="">
+  <div class="cover-shade"></div>
+  <header class="masthead">
+    <div class="mast-top"><span>{{ mag.issue_label }}</span><span>{{ mag.edition }}</span></div>
+    <h1 class="mast-title">{{ mag.title }}</h1>
+    <div class="mast-sub">{{ mag.subtitle }}</div>
+  </header>
+  <div class="cover-lines">
+    {% for l in mag.cover.lines %}
+    <div class="cover-line"><span class="kicker">{{ l.kicker }}</span><div class="cl-text">{{ l.text }}</div></div>
+    {% endfor %}
+  </div>
+  <div class="cover-feature">
+    <span class="kicker">{{ mag.cover.feature_kicker }}</span>
+    <h2>{{ mag.cover.feature }}</h2>
+  </div>
+  <span class="credit-overlay">{{ mag.cover.credit }}</span>
+</section>
+{%- endmacro %}
+
+{# ---------------- CONTENTS ---------------- #}
+{% macro contents(p) -%}
+<section class="page even contents" id="page-{{ p.n }}">
+  <div class="page-inner">
+    <div class="toc-head"><span class="kicker">Inside this issue</span><h2 class="headline h-xl">Contents</h2></div>
+    <div class="toc-grid">
+      <figure class="toc-photo"><img src="{{ mag.contents_image.image }}" alt=""><span class="credit-overlay">{{ mag.contents_image.credit }}</span></figure>
+      <div class="toc-list">
+        {% for s in toc %}
+        <a class="toc-sec" href="#page-{{ s.page }}">
+          <span class="toc-num">{{ s.number }}</span>
+          <span class="toc-body"><span class="toc-name">{{ s.name }}</span><span class="toc-desc">{{ s.blurb }}</span></span>
+          <span class="toc-page">{{ s.page }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="masthead-box">
+      {% for k, v in mag.colophon.items() %}<div><b>{{ k }}</b> {{ v }}</div>{% endfor %}
+    </div>
+  </div>
+  {{ folio(p.n) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- EDITOR'S NOTE ---------------- #}
+{% macro editor(p) -%}
+<section class="page odd editor" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, "From the Editor") }}
+    <span class="kicker">Editor's Note</span>
+    <h2 class="headline h-xl">{{ mag.editor.title }}</h2>
+    <p class="dek">{{ mag.editor.dek }}</p>
+    <div class="rule-thick" style="margin:5mm 0"></div>
+    <div class="body cols-2 dropcap">{% for para in mag.editor.body %}<p>{{ para }}</p>{% endfor %}</div>
+    <div class="signoff">{{ mag.editor.signoff }}</div>
+    <div class="editor-stats">
+      {% for s in stats %}<div><span class="stat-n">{{ s.n }}</span><span class="stat-l">{{ s.l }}</span></div>{% endfor %}
+    </div>
+  </div>
+  {{ folio(p.n, "From the Editor") }}
+</section>
+{%- endmacro %}
+
+{# ---------------- OVERVIEW ---------------- #}
+{% macro overview(p) -%}
+<section class="page even overview" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, "Primer") }}
+    <span class="kicker">Primer</span>
+    <h2 class="headline h-lg">{{ mag.overview.title }}</h2>
+    <p class="dek">{{ mag.overview.dek }}</p>
+    <div class="ov-grid">
+      <div class="body">{% for para in mag.overview.body %}<p>{{ para }}</p>{% endfor %}</div>
+      <figure class="ov-map"><img src="{{ mag.overview.image }}" alt=""><figcaption>{{ mag.overview.caption }}</figcaption></figure>
+    </div>
+    <div class="ov-formations">
+      {% for f in mag.overview.formations %}
+      <div class="formation"><div class="f-name">{{ f.name }}</div><div class="f-hq">{{ f.hq }}</div><div class="f-role">{{ f.role }}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+  {{ folio(p.n, "Primer") }}
+</section>
+{%- endmacro %}
+
+{# ---------------- SECTION OPENER ---------------- #}
+{% macro opener(p, s) -%}
+<section class="page {{ p.side }} opener" id="page-{{ p.n }}">
+  <figure class="op-photo"><img src="{{ s.image }}" alt=""><span class="credit-overlay">{{ s.image_credit }}</span></figure>
+  <div class="op-band">
+    <div class="op-num">{{ s.number }}</div>
+    <div><span class="kicker">Section {{ s.number }}</span><h2 class="op-title">{{ s.name }}</h2></div>
+  </div>
+  <div class="op-body">
+    <div class="body cols-2 dropcap">{% for para in s.intro %}<p>{{ para }}</p>{% endfor %}</div>
+    <aside class="op-inside">
+      <h4>In this section</h4>
+      {% for item in s.inside %}<a href="#page-{{ item.page }}"><span>{{ item.title }}</span><b>{{ item.page }}</b></a>{% endfor %}
+    </aside>
+  </div>
+  {{ folio(p.n, s.name) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- LEAD: big story + sidebar brief ---------------- #}
+{% macro lead(p, s, arts) -%}
+{% set a = arts[0] %}{% set b = arts[1] %}
+<section class="page {{ p.side }} layout-lead" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, s.name) }}
+    {{ photo(a, 'lead-photo') }}
+    <div class="lead-grid">
+      <article class="lead-main">
+        <span class="kicker">{{ a.kicker }}</span>
+        <h3 class="headline h-lg">{{ a.title }}</h3>
+        <div class="body cols-2 dropcap" style="margin-top:3mm">{{ paras(a) }}</div>
+        {{ source_line(a) }}
+      </article>
+      <article class="lead-side">
+        {% if a.pull_quote %}<blockquote class="pullquote">“{{ a.pull_quote }}”</blockquote>{% endif %}
+        <span class="kicker">{{ b.kicker }}</span>
+        <h3 class="headline h-sm">{{ b.title }}</h3>
+        <div class="body small">{{ paras(b) }}</div>
+        {{ source_line(b) }}
+      </article>
+    </div>
+  </div>
+  {{ folio(p.n, s.name) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- PAIR: two stories side by side ---------------- #}
+{% macro pair(p, s, arts) -%}
+<section class="page {{ p.side }} layout-pair" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, s.name) }}
+    <div class="pair-grid">
+      {% for a in arts %}
+      <article>
+        {{ photo(a, 'pair-photo') }}
+        <span class="kicker">{{ a.kicker }}</span>
+        <h3 class="headline h-md">{{ a.title }}</h3>
+        <div class="body">{{ paras(a) }}</div>
+        {{ source_line(a) }}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+  {{ folio(p.n, s.name) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- TRIO: one wide story + two briefs ---------------- #}
+{% macro trio(p, s, arts) -%}
+{% set a = arts[0] %}
+<section class="page {{ p.side }} layout-trio" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, s.name) }}
+    <article class="trio-top">
+      {{ photo(a, 'trio-photo') }}
+      <div>
+        <span class="kicker">{{ a.kicker }}</span>
+        <h3 class="headline h-md">{{ a.title }}</h3>
+        <div class="body">{{ paras(a) }}</div>
+        {{ source_line(a) }}
+      </div>
+    </article>
+    <div class="rule-thick" style="margin:4mm 0"></div>
+    <div class="trio-bottom">
+      {% for b in arts[1:] %}
+      <article>
+        {% if b.image %}{{ photo(b, 'brief-photo') }}{% endif %}
+        <span class="kicker">{{ b.kicker }}</span>
+        <h3 class="headline h-sm">{{ b.title }}</h3>
+        <div class="body">{{ paras(b) }}</div>
+        {{ source_line(b) }}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+  {{ folio(p.n, s.name) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- APPENDIX TABLE PAGE ---------------- #}
+{% macro appendix(p) -%}
+<section class="page {{ p.side }} appendix" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, p.title) }}
+    {% if p.first %}<span class="kicker">{{ p.kicker }}</span><h2 class="headline h-lg">{{ p.title }}</h2><p class="dek">{{ p.dek }}</p>{% endif %}
+    <table class="ap-table {{ p.kind }}">
+      <thead><tr>{% for h in p.headers %}<th>{{ h }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for row in p.rows %}<tr>{% for c in row %}<td>{{ c | safe }}</td>{% endfor %}</tr>{% endfor %}
+      </tbody>
+    </table>
+    {% if p.note %}<p class="ap-note">{{ p.note }}</p>{% endif %}
+  </div>
+  {{ folio(p.n, p.title) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- BACK COVER ---------------- #}
+{% macro back(p) -%}
+<section class="page back" id="page-{{ p.n }}">
+  <img class="cover-bg" src="{{ mag.back.image }}" alt="">
+  <div class="back-shade"></div>
+  <div class="back-content">
+    <blockquote>“{{ mag.back.quote }}”</blockquote>
+    <cite>{{ mag.back.cite }}</cite>
+    <div class="back-mast">{{ mag.title }}</div>
+    <div class="back-meta">{{ mag.back.meta }}</div>
+  </div>
+  <span class="credit-overlay">{{ mag.back.credit }}</span>
+</section>
+{%- endmacro %}

@@ -1,0 +1,272 @@
+/* Interactive Military Defense Web Reader Styles */
+:root {
+  --reader-bg: #0d1117;
+  --panel-bg: #161b22;
+  --accent-gold: #c99738;
+  --accent-gold-light: #e0b354;
+  --border-color: #30363d;
+  --text-primary: #f0f6fc;
+  --text-muted: #8b949e;
+  --header-height: 60px;
+}
+
+body.reader-body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--reader-bg);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.reader-header {
+  height: var(--header-height);
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 100;
+}
+
+.brand-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.emblem-badge {
+  font-size: 1.5rem;
+}
+
+.title-block .kicker {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.title-block h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+
+.reader-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-ctrl, .btn-arrow, .btn-download {
+  background: #21262d;
+  color: #c9d1d9;
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+}
+
+.btn-ctrl:hover, .btn-arrow:hover {
+  background: #30363d;
+  color: #fff;
+  border-color: #8b949e;
+}
+
+.btn-ctrl.active {
+  background: var(--accent-gold);
+  color: #0d1117;
+  border-color: var(--accent-gold-light);
+}
+
+.btn-download {
+  background: #238636;
+  color: #fff;
+  border-color: #2ea043;
+}
+
+.btn-download:hover {
+  background: #2ea043;
+}
+
+.page-jump-box {
+  display: flex;
+  align-items: center;
+  background: #0d1117;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
+  gap: 0.5rem;
+}
+
+.page-counter {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.page-counter span {
+  color: #fff;
+  font-weight: 700;
+}
+
+.reader-viewport {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.spread-stage {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  max-height: calc(100vh - var(--header-height) - 3rem);
+  transition: transform 0.3s ease;
+}
+
+.reader-page-card {
+  display: none;
+  background: #fff;
+  color: #111;
+  width: 210mm;
+  height: 297mm;
+  max-height: calc(100vh - var(--header-height) - 3rem);
+  aspect-ratio: 210 / 297;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+}
+
+.reader-page-card.active {
+  display: flex;
+}
+
+.page-header-strip {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 0.3rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #6c757d;
+  letter-spacing: 0.05em;
+}
+
+.page-content-wrapper {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+/* TOC Drawer */
+.toc-drawer {
+  position: fixed;
+  top: var(--header-height);
+  left: -380px;
+  width: 360px;
+  bottom: 0;
+  background: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  z-index: 200;
+  transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.toc-drawer.open {
+  left: 0;
+}
+
+.drawer-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawer-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.8rem;
+}
+
+.toc-nav-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.7rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid #21262d;
+}
+
+.toc-nav-item:hover {
+  background: #21262d;
+}
+
+.nav-num {
+  font-weight: 800;
+  color: var(--accent-gold);
+  font-size: 0.85rem;
+  min-width: 25px;
+}
+
+.nav-meta {
+  flex: 1;
+}
+
+.nav-name {
+  display: block;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.nav-blurb {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.nav-page {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}

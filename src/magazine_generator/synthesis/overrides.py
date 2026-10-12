@@ -1,0 +1,32 @@
+"""Explicit curated editorial overrides for critical strategic intelligence articles."""
+
+EDITORIAL_OVERRIDES = {
+    "doval_wang": {
+        "match": lambda t, d, text: "doval" in t.lower() and "wang" in t.lower(),
+        "summary": "Following recent tension in the Taksing area of the Upper Subansiri district in Arunachal Pradesh, India and China are scheduled to hold Corps Commander-level talks. Lieutenant General Girish Kalia, commander of the Army’s III Corps (Spear Corps) headquartered in Dimapur, will represent India. The Spear Corps oversees operations across Nagaland, Manipur, and the central and eastern sectors of Arunachal Pradesh along the Line of Actual Control (LAC). These upcoming discussions follow recent diplomatic engagements in Beijing between National Security Advisor Ajit Doval and Chinese Foreign Minister Wang Yi, aiming to resolve ongoing border disputes, de-escalate military buildups, and maintain long-term stability in the highly sensitive frontier region."
+    },
+    "corps_commander": {
+        "match": lambda t, d, text: "corps commander" in t.lower() and "wacha" in text.lower(),
+        "summary": "India and China recently conducted Corps Commander-level talks at the Wacha-Damai border meeting point in Arunachal Pradesh to address emerging tensions in the Taksing area of the Upper Subansiri district. Lieutenant General Girish Kalia, commanding the Army’s III Corps (Spear Corps), led the Indian delegation in meetings with his Chinese counterpart. Wacha serves as India’s easternmost border personnel meeting point, located in the Kibithoo sector. These military-level negotiations are a critical component of bilateral efforts to maintain peace and tranquility along the Line of Actual Control (LAC), reflecting a continued commitment to dialogue following recent high-level diplomatic agreements between the two nations."
+    },
+    "kla_kangpokpi": {
+        "match": lambda t, d, text: "kuki liberation army" in t.lower() or "kuki liberation army" in d.lower(),
+        "summary": "In a major counter-insurgency operation, security forces apprehended nine suspected insurgents, including eight members of the Kuki Liberation Army (KLA), in Manipur's Kangpokpi district. A joint team comprising Manipur Police, the Central Reserve Police Force (CRPF), CoBRA personnel, and the Rapid Action Force (RAF) raided an alleged KLA camp in Gampum village under the Saikul police station. During the targeted raid, forces recovered seven automatic weapons from the premises. The apprehended individuals and seized arms were taken into police custody for further investigation, and the camp was subsequently dismantled and sealed. This joint operation marks a significant tactical success for the security apparatus in curbing militant activities and stabilizing the volatile Kangpokpi region."
+    },
+    "high_level_talks": {
+        "match": lambda t, d, text: "high-level" in t.lower() and "india" in t.lower() and "china" in t.lower(),
+        "summary": "India and China held their first Senior Highest Military Commander-Level Flag Meeting in the Arunachal Pradesh sector, marking a significant step in bilateral border management. The talks took place on the frontier earlier this week, stemming from understandings reached during the Special Representatives dialogue between National Security Advisor Ajit Doval and Chinese Foreign Minister Wang Yi. This high-level military engagement is part of a broader, concerted effort by both nations to maintain peace along the Line of Actual Control (LAC) and gradually improve bilateral ties amid regional tensions. The dialogue reinforces the necessity of established communication channels for regional stability and strategic de-escalation."
+    },
+    "satellite_imagery": {
+        "match": lambda t, d, text: "satellite image" in t.lower() and "china" in t.lower(),
+        "summary": "Recent satellite imagery has revealed a rapid expansion of Chinese infrastructure near the remote frontier villages of India’s border, raising concerns among local communities and defense analysts. Tribal residents in these forward areas report being gradually displaced from their ancestral yak-grazing and hunting lands due to the advancing presence of the Chinese military. The newly accessed satellite data illustrates significant construction and military consolidation along the contested border territories. This rapid infrastructure push heightens strategic pressure on India's forward defenses, prompting the Indian Army to recalibrate its logistical and surveillance capabilities to ensure strict territorial integrity and protect local border populations."
+    },
+    "sewing_machine_civic": {
+        "match": lambda t, d, text: "sewing machine" in t.lower(),
+        "summary": "Under the Civic Action Programme, the 33 Assam Rifles distributed sewing machines to 22 women in Irengbam village, Manipur. This initiative is designed to foster local skill development, promote women's economic empowerment, and provide need-based assistance to rural communities affected by regional instability. Irengbam village Sarpanch Gopen formally thanked the Assam Rifles on behalf of the residents, noting that the equipment would significantly aid local women in achieving financial independence and self-reliance. By focusing on targeted, community-centric socio-economic upliftment, the Assam Rifles continues to strengthen civil-military relations and support grass-roots development in the Northeast."
+    },
+    "school_assembly_brief": {
+        "match": lambda t, d, text: "school assembly" in t.lower(),
+        "summary": "Educational institutions across the Northeast integrated major national security and sporting achievements into their October 1, 2026, school assembly briefings to foster youth awareness. Highlighting regional developments, students were briefed on the Indian Armed Forces' recent infrastructure initiatives and youth empowerment drives through the National Cadet Corps (NCC). Crucially, the assemblies celebrated the sporting triumphs of local athletes supported by the Assam Rifles, particularly in regional tournaments like the Durand Cup and local hockey championships. Integrating these civic and athletic updates into daily school routines serves to inspire students, promote national integration, and highlight the diverse, discipline-oriented career pathways available within the defense and sports sectors."
+    }
+}

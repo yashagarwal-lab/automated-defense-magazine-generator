@@ -1,0 +1,26 @@
+{% import 'components/macros.html.j2' as m with context %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ mag.title }} — {{ mag.subtitle }}</title>
+  <meta name="description" content="{{ mag.subtitle }}. {{ mag.issue_label }}.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="layouts.css">
+</head>
+<body>
+{% for p in pages %}
+  {% if p.type == 'cover' %}{{ m.cover(p) }}
+  {% elif p.type == 'contents' %}{{ m.contents(p) }}
+  {% elif p.type == 'editor' %}{{ m.editor(p) }}
+  {% elif p.type == 'overview' %}{{ m.overview(p) }}
+  {% elif p.type == 'opener' %}{{ m.opener(p, p.section) }}
+  {% elif p.type == 'lead' %}{{ m.lead(p, p.section, p.arts) }}
+  {% elif p.type == 'pair' %}{{ m.pair(p, p.section, p.arts) }}
+  {% elif p.type == 'trio' %}{{ m.trio(p, p.section, p.arts) }}
+  {% elif p.type == 'appendix' %}{{ m.appendix(p) }}
+  {% elif p.type == 'back' %}{{ m.back(p) }}
+  {% endif %}
+{% endfor %}
+</body>
+</html>

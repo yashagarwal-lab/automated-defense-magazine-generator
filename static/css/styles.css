@@ -1,0 +1,170 @@
+/* ==========================================================================
+   NORTHEAST FRONTIER — print magazine design system
+   Every .page is one A4 sheet. Chrome prints them 1:1 to PDF.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* palette: navy ink, army olive, saffron used sparingly */
+  --ink: #16191d;
+  --ink-soft: #3d434b;
+  --muted: #6b7280;
+  --paper: #fbfaf6;
+  --paper-2: #f2efe6;
+  --rule: #d9d4c7;
+  --navy: #0e2236;
+  --navy-2: #173450;
+  --olive: #4b5320;
+  --olive-2: #6b7440;
+  --saffron: #d9822b;
+  --white: #ffffff;
+
+  --f-head: 'Playfair Display', Georgia, serif;
+  --f-body: 'Source Serif 4', Georgia, serif;
+  --f-label: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-ui: 'Inter', system-ui, sans-serif;
+
+  --m-out: 14mm;   /* outer margin */
+  --m-in: 16mm;    /* inner (gutter) margin */
+  --m-top: 16mm;
+  --m-bot: 18mm;
+}
+
+@page { size: A4; margin: 0; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { background: #5b5f64; }
+body {
+  font-family: var(--f-body);
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+}
+
+/* ---------- the sheet ---------- */
+.page {
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  margin: 10mm auto;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, .35);
+  page-break-after: always;
+  break-after: page;
+}
+@media print {
+  html, body { background: none; }
+  .page { margin: 0; box-shadow: none; }
+}
+
+.page-inner {
+  position: absolute;
+  inset: var(--m-top) var(--m-out) var(--m-bot) var(--m-in);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.page.even .page-inner { left: var(--m-out); right: var(--m-in); }
+
+/* running header + folio */
+.running-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--f-label); font-weight: 600; font-size: 8.5pt;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  border-bottom: .6pt solid var(--ink); padding-bottom: 2mm; margin-bottom: 6mm;
+}
+.running-head .sec { color: var(--olive); }
+.folio {
+  position: absolute; bottom: 8mm;
+  font-family: var(--f-label); font-size: 9pt; letter-spacing: .12em;
+  color: var(--muted);
+}
+.page.odd .folio  { right: var(--m-out); }
+.page.even .folio { left: var(--m-out); }
+.folio b { color: var(--ink); font-weight: 700; margin: 0 2mm; }
+
+/* ---------- typography ---------- */
+.kicker {
+  font-family: var(--f-label); font-weight: 700; font-size: 9pt;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--saffron);
+}
+.headline {
+  font-family: var(--f-head); font-weight: 800; color: var(--ink);
+  line-height: 1.08; letter-spacing: -.01em;
+}
+.h-xl { font-size: 36pt; }
+.h-lg { font-size: 26pt; }
+.h-md { font-size: 20pt; }
+.h-sm { font-size: 14pt; line-height: 1.18; }
+
+.dek {
+  font-family: var(--f-body); font-style: italic; font-size: 12.5pt;
+  line-height: 1.45; color: var(--ink-soft); margin-top: 2.5mm;
+}
+.body {
+  font-size: 11pt; line-height: 1.55; color: var(--ink);
+  text-align: justify; hyphens: auto; -webkit-hyphens: auto;
+  hyphenate-limit-chars: 7 3 3; hyphenate-limit-lines: 2;
+}
+.body p + p { text-indent: 1.2em; }
+.body.cols-2 { column-count: 2; column-gap: 6mm; }
+.body.cols-3 { column-count: 3; column-gap: 5mm; }
+.body.dropcap > p:first-child::first-letter {
+  font-family: var(--f-head); font-weight: 800; float: left;
+  font-size: 34pt; line-height: .82; padding: 1.2mm 1.6mm 0 0; color: var(--olive);
+}
+
+.byline {
+  font-family: var(--f-label); font-size: 8.5pt; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  margin: 2.5mm 0 3mm;
+}
+
+/* source line under every article — clickable in the PDF */
+.source-line {
+  margin-top: 2.5mm; padding-top: 2mm; border-top: .5pt solid var(--rule);
+  font-family: var(--f-ui); font-size: 7pt; color: var(--muted);
+  display: flex; gap: 3mm; flex-wrap: wrap; align-items: center;
+}
+.source-line b { color: var(--ink); font-weight: 600; }
+.source-line a { color: var(--navy-2); text-decoration: none; font-weight: 600; }
+.source-line a::after { content: ' ↗'; }
+
+/* ---------- photos ---------- */
+figure { position: relative; }
+figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+figcaption, .credit {
+  font-family: var(--f-ui); font-size: 6.5pt; color: var(--muted);
+  margin-top: 1.2mm; letter-spacing: .02em;
+}
+.credit-overlay {
+  position: absolute; right: 2mm; bottom: 1.5mm;
+  font-family: var(--f-ui); font-size: 6pt; color: rgba(255,255,255,.85);
+  text-shadow: 0 0 3px rgba(0,0,0,.8);
+}
+
+/* ---------- utility pieces ---------- */
+.rule-thick { border-top: 2.2pt solid var(--ink); }
+.rule-thin  { border-top: .5pt solid var(--rule); }
+.pullquote {
+  font-family: var(--f-head); font-style: italic; font-weight: 600;
+  font-size: 15pt; line-height: 1.25; color: var(--navy);
+  border-top: 2pt solid var(--saffron); border-bottom: .5pt solid var(--rule);
+  padding: 3mm 0;
+}
+.factfile {
+  background: var(--paper-2); border-top: 3pt solid var(--olive);
+  padding: 4mm; font-family: var(--f-ui); font-size: 8pt; line-height: 1.45;
+}
+.factfile h4 {
+  font-family: var(--f-label); font-size: 10pt; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--olive); margin-bottom: 2mm;
+}
+.factfile li { list-style: none; padding: 1.2mm 0; border-bottom: .4pt dotted var(--rule); }
+.factfile li:last-child { border-bottom: 0; }
+.factfile b { color: var(--ink); }

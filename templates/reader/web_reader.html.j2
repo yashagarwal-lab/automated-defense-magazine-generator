@@ -1,0 +1,91 @@
+{% import 'components/macros.html.j2' as m with context %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ mag.title }} — Interactive Digital Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/layouts.css">
+  <link rel="stylesheet" href="css/web_reader.css">
+</head>
+<body class="reader-body">
+  <!-- Reader Top Bar -->
+  <header class="reader-header">
+    <div class="brand-cluster">
+      <span class="emblem-badge">⚔️</span>
+      <div class="title-block">
+        <span class="kicker">DEFENSE INTELLIGENCE PUBLISHING</span>
+        <h1>{{ mag.title }}</h1>
+      </div>
+    </div>
+
+    <div class="reader-controls">
+      <button id="btn-toc" class="btn-ctrl" title="Table of Contents">📑 Contents</button>
+      <div class="page-jump-box">
+        <button id="btn-prev" class="btn-arrow" title="Previous Page (←)">◀</button>
+        <span class="page-counter">Page <span id="curr-page">1</span> of <span id="total-pages">{{ pages|length }}</span></span>
+        <button id="btn-next" class="btn-arrow" title="Next Page (→)">▶</button>
+      </div>
+      <button id="btn-spread" class="btn-ctrl active" title="Toggle Spread View">📖 Spread</button>
+      <button id="btn-fullscreen" class="btn-ctrl" title="Fullscreen">⛶ Fullscreen</button>
+      <a href="Securing_the_Northeast_Magazine.pdf" download class="btn-download" title="Download High-Res PDF">⬇ PDF</a>
+    </div>
+  </header>
+
+  <!-- Reader Viewport -->
+  <main class="reader-viewport" id="viewport">
+    <div class="spread-stage" id="spread-stage">
+      <!-- Rendered pages are dynamically mounted here -->
+      {% for p in pages %}
+      <div class="reader-page-card" id="card-{{ p.n }}" data-page-num="{{ p.n }}" data-side="{{ p.side }}">
+        <div class="page-header-strip">
+          <span class="folio-tag">PAGE {{ p.n }}</span>
+          <span class="section-tag">{{ p.section.name if p.section else mag.short_title }}</span>
+        </div>
+        <div class="page-content-wrapper">
+          {% if p.type == 'cover' %}{{ m.cover(p) }}
+          {% elif p.type == 'contents' %}{{ m.contents(p) }}
+          {% elif p.type == 'editor' %}{{ m.editor(p) }}
+          {% elif p.type == 'overview' %}{{ m.overview(p) }}
+          {% elif p.type == 'opener' %}{{ m.opener(p, p.section) }}
+          {% elif p.type == 'lead' %}{{ m.lead(p, p.section, p.arts) }}
+          {% elif p.type == 'pair' %}{{ m.pair(p, p.section, p.arts) }}
+          {% elif p.type == 'trio' %}{{ m.trio(p, p.section, p.arts) }}
+          {% elif p.type == 'appendix' %}{{ m.appendix(p) }}
+          {% elif p.type == 'back' %}{{ m.back(p) }}
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <!-- TOC Sidebar Drawer -->
+  <aside class="toc-drawer" id="toc-drawer">
+    <div class="drawer-header">
+      <h3>Table of Contents</h3>
+      <button id="btn-close-toc" class="btn-close">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div class="toc-nav-list">
+        {% for t in toc %}
+        <div class="toc-nav-item" data-target-page="{{ t.page }}">
+          <span class="nav-num">{{ t.number }}</span>
+          <div class="nav-meta">
+            <strong class="nav-name">{{ t.name }}</strong>
+            <small class="nav-blurb">{{ t.blurb }}</small>
+          </div>
+          <span class="nav-page">p. {{ t.page }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </aside>
+
+  <script src="js/reader.js"></script>
+</body>
+</html>
