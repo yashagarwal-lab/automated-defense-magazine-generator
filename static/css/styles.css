@@ -4,9 +4,10 @@
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('themes/army_gold.css');
 
 :root {
-  /* palette: navy ink, army olive, saffron used sparingly */
+  /* Default palette fallback */
   --ink: #16191d;
   --ink-soft: #3d434b;
   --muted: #6b7280;
@@ -18,6 +19,7 @@
   --olive: #4b5320;
   --olive-2: #6b7440;
   --saffron: #d9822b;
+  --accent: #d9822b;
   --white: #ffffff;
 
   --f-head: 'Playfair Display', Georgia, serif;

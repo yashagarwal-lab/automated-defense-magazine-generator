@@ -24,9 +24,10 @@ def build_pages_plan(
     pages: List[Dict[str, Any]] = [
         {"type": "cover"},
         {"type": "contents"},
-        {"type": "editor"},
-        {"type": "overview"}
+        {"type": "editor"}
     ]
+    if mag.get("include_overview", True):
+        pages.append({"type": "overview"})
     toc: List[Dict[str, Any]] = []
     used: List[Dict[str, Any]] = []
 
@@ -99,8 +100,14 @@ def build_pages_plan(
         for idx, a in enumerate(used, 1)
     ]
 
+    chunks_def = mag.get("appendix2_chunks") or APPENDIX2_ROWS_PER_PAGE
+    if sum(chunks_def) != len(ap2_rows):
+        from .budgeter import compute_appendix_chunks
+        num_p = max(1, len(chunks_def))
+        chunks_def = compute_appendix_chunks(len(ap2_rows), num_p)
+
     start_idx = 0
-    for k, size in enumerate(APPENDIX2_ROWS_PER_PAGE):
+    for k, size in enumerate(chunks_def):
         chunk = ap2_rows[start_idx:start_idx + size]
         start_idx += size
         if not chunk:

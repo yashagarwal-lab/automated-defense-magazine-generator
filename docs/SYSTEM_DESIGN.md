@@ -155,8 +155,47 @@ In traditional desktop publishing, text is either manually massaged or clipped b
 
 | Metric | Target | Verified Value | Validation Tool |
 |---|---|---|---|
-| **Total Page Budget** | Exactly 50 pages | 50 pages | `pdfinfo`, Chromium DOM |
+| **Total Page Budget** | Configurable (24, 32, 50, 64 pp) | 50 pages (default) | `pdfinfo`, Chromium DOM |
 | **DOM Text Clipping** | 0 mm overflow | 0 mm (Pass) | `mag-gen check` (Playwright) |
 | **Date Window Compliance** | 2026-09-01 to 2026-10-03 | 100% compliant | `mag-gen render` assertions |
 | **PDF File Size** | < 15 MB | 9.31 MB | High-res image compression |
 | **CLI Cold Execution Time** | < 15s end-to-end | ~9.2s | Linux 6.12 x86_64 |
+
+---
+
+## 6. Modular Subsystems Architecture
+
+### 6.1 Pluggable Ingestion Engine (`src/magazine_generator/ingestion/`)
+The ingestion pipeline decouples intelligence data sources from typesetting:
+- `BaseIngestor`: Abstract protocol establishing the normalized article contract.
+- `JSONIngestor`: Ingests from wire dumps and structured JSON datasets (`pool.json`, `articles.json`).
+- `MarkdownIngestor`: Parses field dispatches written in Markdown with YAML frontmatter.
+- `RSSIngestor`: Parses live or archived RSS 2.0 and Atom XML feeds.
+- `create_ingestor(type)`: Factory dispatcher for seamless CLI ingestion (`mag-gen ingest`).
+
+### 6.2 Layout Archetypes Registry (`src/magazine_generator/layout/registry.py`)
+Layout archetypes are registered with geometric and editorial constraints:
+- `lead`: 1 hero story with 108mm photo, 2-column dropcap body, 1 sidebar brief (2 articles).
+- `pair`: 2 balanced vertical stories with 72mm photos (2 articles).
+- `trio`: 1 top headline story + 2 compact briefing notes (3 articles).
+- `quad`: 4 compact intelligence briefs in a symmetrical 2x2 grid (4 articles).
+- `photo_essay`: Full-width 130mm panoramic hero photo with expansive analysis (1 article).
+
+### 6.3 Dynamic Auto-Budgeter (`src/magazine_generator/layout/budgeter.py`)
+Computes the exact layout matrix for arbitrary target page counts $T$:
+- Computes front matter ($P_{\text{front}} \in \{3, 4\}$), section openers ($N_S$), and back matter ($P_{\text{back}} = 2$).
+- Pro-rates content pages across sections based on available articles.
+- Selects optimal layout archetypes (`lead`, `pair`, `trio`, `quad`, `photo_essay`).
+- Dynamically chunks Appendix 2 rationale rows across $K$ pages without generating unwanted trailing sheets.
+
+### 6.4 Modular Theme Subsystem (`static/css/themes/`)
+CSS custom properties decouple design tokens into hot-swappable theme stylesheets:
+- `army_gold.css`: Classic Army Saffron (`#d9822b`), Olive (`#4b5320`), Paper (`#fbfaf6`).
+- `navy_blue.css`: Navy Deep Blue (`#0a192f`), Ocean Accent (`#0077b6`), Crisp Slate Paper (`#f8fafc`).
+- `airforce_slate.css`: Air Force Steel Slate (`#1e293b`), Sky Cyan (`#0ea5e9`), Cool Paper (`#f8fafc`).
+- `editorial_mono.css`: Minimalist high-contrast monochrome (`#111111`), stark rules, timeless serif.
+
+### 6.5 Declarative YAML Configurations (`configs/`)
+Replaces hardcoded parameters with version-controlled YAML specifications:
+- `configs/securing_the_northeast_50p.yaml`: Full 50-page compendium specification.
+- `configs/briefing_24p.yaml`: 24-page executive tactical briefing specification.

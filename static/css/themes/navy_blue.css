@@ -1,0 +1,16 @@
+:root {
+  --theme-name: 'navy_blue';
+  --ink: #0d1821;
+  --ink-soft: #2c3e50;
+  --muted: #5c6b73;
+  --paper: #f8fafc;
+  --paper-2: #edf2f7;
+  --rule: #cbd5e1;
+  --navy: #0a192f;
+  --navy-2: #1b2a4a;
+  --olive: #1b4965;
+  --olive-2: #2b6777;
+  --saffron: #f2994a;
+  --accent: #0077b6;
+  --white: #ffffff;
+}

@@ -1,0 +1,16 @@
+:root {
+  --theme-name: 'airforce_slate';
+  --ink: #1e293b;
+  --ink-soft: #334155;
+  --muted: #64748b;
+  --paper: #f8fafc;
+  --paper-2: #f1f5f9;
+  --rule: #cbd5e1;
+  --navy: #0f172a;
+  --navy-2: #1e293b;
+  --olive: #334155;
+  --olive-2: #475569;
+  --saffron: #0ea5e9;
+  --accent: #0284c7;
+  --white: #ffffff;
+}

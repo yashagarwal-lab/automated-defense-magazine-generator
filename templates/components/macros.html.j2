@@ -208,6 +208,44 @@
 </section>
 {%- endmacro %}
 
+{# ---------------- QUAD: 4 brief stories in a 2x2 grid ---------------- #}
+{% macro quad(p, s, arts) -%}
+<section class="page {{ p.side }} layout-quad" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, s.name) }}
+    <div class="quad-grid">
+      {% for a in arts %}
+      <article class="quad-card">
+        {% if a.image %}{{ photo(a, 'quad-photo') }}{% endif %}
+        <span class="kicker">{{ a.kicker }}</span>
+        <h3 class="headline h-sm">{{ a.title }}</h3>
+        <div class="body small">{{ paras(a) }}</div>
+        {{ source_line(a) }}
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+  {{ folio(p.n, s.name) }}
+</section>
+{%- endmacro %}
+
+{# ---------------- PHOTO ESSAY: 1 full-width hero feature ---------------- #}
+{% macro photo_essay(p, s, arts) -%}
+{% set a = arts[0] %}
+<section class="page {{ p.side }} layout-photo-essay" id="page-{{ p.n }}">
+  <div class="page-inner">
+    {{ running_head(p.n, s.name) }}
+    {{ photo(a, 'essay-photo') }}
+    <span class="kicker">{{ a.kicker }}</span>
+    <h3 class="headline h-xl">{{ a.title }}</h3>
+    {% if a.dek %}<p class="dek">{{ a.dek }}</p>{% endif %}
+    <div class="body cols-2 dropcap" style="margin-top:3mm">{{ paras(a) }}</div>
+    {{ source_line(a) }}
+  </div>
+  {{ folio(p.n, s.name) }}
+</section>
+{%- endmacro %}
+
 {# ---------------- APPENDIX TABLE PAGE ---------------- #}
 {% macro appendix(p) -%}
 <section class="page {{ p.side }} appendix" id="page-{{ p.n }}">

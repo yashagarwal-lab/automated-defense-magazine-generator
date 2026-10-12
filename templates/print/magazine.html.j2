@@ -7,6 +7,9 @@
   <meta name="description" content="{{ mag.subtitle }}. {{ mag.issue_label }}.">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="layouts.css">
+  {% if mag.theme and mag.theme != 'army_gold' %}
+  <link rel="stylesheet" href="css/themes/{{ mag.theme }}.css">
+  {% endif %}
 </head>
 <body>
 {% for p in pages %}
@@ -18,6 +21,8 @@
   {% elif p.type == 'lead' %}{{ m.lead(p, p.section, p.arts) }}
   {% elif p.type == 'pair' %}{{ m.pair(p, p.section, p.arts) }}
   {% elif p.type == 'trio' %}{{ m.trio(p, p.section, p.arts) }}
+  {% elif p.type == 'quad' %}{{ m.quad(p, p.section, p.arts) }}
+  {% elif p.type == 'photo_essay' %}{{ m.photo_essay(p, p.section, p.arts) }}
   {% elif p.type == 'appendix' %}{{ m.appendix(p) }}
   {% elif p.type == 'back' %}{{ m.back(p) }}
   {% endif %}

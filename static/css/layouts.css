@@ -140,6 +140,17 @@
 .trio-bottom .headline { margin: 1mm 0 2mm; }
 .trio-bottom .source-line { margin-top: auto; }
 
+/* ---------------- QUAD ---------------- */
+.quad-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6mm; flex: 1; min-height: 0; }
+.quad-card { display: flex; flex-direction: column; }
+.quad-photo { height: 42mm; margin-bottom: 2mm; flex-shrink: 0; }
+.quad-card .headline { margin: 1mm 0 1.5mm; font-size: 11pt; }
+.quad-card .source-line { margin-top: auto; }
+
+/* ---------------- PHOTO ESSAY ---------------- */
+.layout-photo-essay .essay-photo { height: 130mm; margin-bottom: 4mm; flex-shrink: 0; }
+.layout-photo-essay .headline { margin-top: 1mm; }
+
 /* ---------------- APPENDIX ---------------- */
 .ap-table { width: 100%; border-collapse: collapse; margin-top: 4mm; font-family: var(--f-ui); font-size: 7.2pt; }
 .ap-table th {
